@@ -14,6 +14,8 @@ namespace Betonarka_Kocovce
         public static short rack = 0;
         public static short slot = 1;
 
+        public static int startAddr = 2110;
+
         public static Plc plc = new Plc(CpuType.S71200, ipAddr, ipPort, rack, slot);
         public static List<int> ReadData()
         {
@@ -26,11 +28,11 @@ namespace Betonarka_Kocovce
                         return null;
                 }
 
-                var bitArray = (bool[])plc.Read(DataType.DataBlock, 2110, 0, VarType.Bit, 1, 0);
+                var bitArray = (bool[])plc.Read(DataType.DataBlock, startAddr, 0, VarType.Bit, 1, 0);
                 bool readyBit = bitArray[0];
                 if (readyBit == true)
                 {
-                    var data = ((int[])plc.Read(DataType.DataBlock, 2110, 2, VarType.DWord, 2)).ToList();
+                    var data = ((int[])plc.Read(DataType.DataBlock, startAddr, 2, VarType.DWord, 2)).ToList();
                     plc.WriteBit(DataType.DataBlock, 2110, 0, 0, false);
                     return data;
                 }
