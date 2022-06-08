@@ -27,7 +27,8 @@ namespace Betonarka_Kocovce
 
                 for (int i = 0; i < numRegisters; i += 2)
                 {
-                    recvData.Add(registers[i] | (registers[i + 1] << 16) / 10);
+                    double recvValue = registers[i] | (registers[i + 1] << 16);
+                    recvData.Add(recvValue / 10); // 1 decimal value
                 }
 
                 return recvData;
