@@ -8,6 +8,7 @@ namespace Betonarka_Kocovce
     {
         List<double> dataModbus;
         List<int> dataProfinet;
+        bool profinetConnected = true;
 
         int timer = 0;
 
@@ -32,11 +33,18 @@ namespace Betonarka_Kocovce
             textBox7.Text = Convert.ToString(dataModbus[6]); // struska
 
             // palety
-            dataProfinet = ProfinetS7.ReadData();
+            if (profinetConnected)
+            {
+                dataProfinet = ProfinetS7.ReadData();
+            }
             if (dataProfinet != null)
             {
                 textBox8.Text = Convert.ToString(dataProfinet[0]);
                 textBox9.Text = Convert.ToString(dataProfinet[1]);
+            }
+            else
+            {
+                profinetConnected = false;
             }
         }
 
