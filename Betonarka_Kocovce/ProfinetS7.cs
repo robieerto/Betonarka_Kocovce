@@ -32,6 +32,13 @@ namespace Betonarka_Kocovce
 
                 var bitArray = (bool[])plc.Read(DataType.DataBlock, startAddr, 0, VarType.Bit, 1, 0);
                 var data = ((int[])plc.Read(DataType.DataBlock, startAddr, 2, VarType.DWord, 2)).ToList();
+                // druha varianta
+                //var data = new List<int>();
+                //int firstValue = (ushort)plc.Read("DB2110.DBW2");
+                //int secondValue = (ushort)plc.Read("DB2110.DBW4");
+                //data.Add(firstValue);
+                //data.Add(secondValue);
+
                 bool readyBit = bitArray[0];
                 if (readyBit == true)
                 {
