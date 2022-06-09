@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Betonarka_Kocovce
 {
-    public partial class Form1 : Form
+    public partial class Form1 : System.Windows.Forms.Form
     {
         List<double> dataModbus;
+        List<double> dataModbusLast;
         List<int> dataProfinet;
         bool profinetConnected = true;
 
@@ -15,10 +15,19 @@ namespace Betonarka_Kocovce
         public Form1()
         {
             InitializeComponent();
+            this.Text = "Betonárka Kočovce";
+            this.Select();
+
+            //ReadValues();
         }
 
         public void ReadValues()
         {
+            if (dataModbus != null)
+            {
+                dataModbusLast = new List<double>(dataModbus);
+            }
+
             // velka miesacka
             dataModbus = ModbusTCP.MasterReadDoubleWords(618, 4);
             textBox1.Text = Convert.ToString(dataModbus[0]); // cement
@@ -48,14 +57,32 @@ namespace Betonarka_Kocovce
             }
         }
 
+        public void checkAndSave()
+        {
+            bool willSaveDataModbus = false;
+            for (int i = 0; i < dataModbus.Count; i++)
+            {
+                if (dataModbus[i] == 0 && dataModbusLast[i] != 0)
+                {
+                    willSaveDataModbus = true;
+                    break;
+                }
+            }
+            if (willSaveDataModbus)
+            {
+                CsvLayer.SaveMiesacky(dataModbus);
+            }
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer++;
 
-            if (timer >= 10)
+            if (timer >= 1)
             {
-                ReadValues();
                 timer = 0;
+                ReadValues();
+                checkAndSave();
             }
         }
     }

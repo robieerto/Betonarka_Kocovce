@@ -137,6 +137,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label2
@@ -190,7 +191,7 @@
             this.label6.AutoSize = true;
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Font = new System.Drawing.Font("Microsoft Tai Le", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(659, 162);
+            this.label6.Location = new System.Drawing.Point(665, 162);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(78, 22);
             this.label6.TabIndex = 183;
@@ -310,7 +311,7 @@
             this.label11.AutoSize = true;
             this.label11.BackColor = System.Drawing.Color.Transparent;
             this.label11.Font = new System.Drawing.Font("Microsoft Tai Le", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label11.Location = new System.Drawing.Point(316, 438);
+            this.label11.Location = new System.Drawing.Point(313, 438);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(125, 22);
             this.label11.TabIndex = 194;
@@ -321,7 +322,7 @@
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.Font = new System.Drawing.Font("Microsoft Tai Le", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label12.Location = new System.Drawing.Point(466, 438);
+            this.label12.Location = new System.Drawing.Point(457, 438);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(173, 22);
             this.label12.TabIndex = 195;

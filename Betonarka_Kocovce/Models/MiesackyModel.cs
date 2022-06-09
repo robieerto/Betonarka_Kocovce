@@ -15,6 +15,5 @@ namespace Betonarka_Kocovce.Models
         public double MalaCement { get; set; }
         public double MalaCementBiely { get; set; }
         public double MalaStuska { get; set; }
-        public double MalaPopol { get; set; }
     }
 }
