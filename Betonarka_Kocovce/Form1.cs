@@ -59,6 +59,7 @@ namespace Betonarka_Kocovce
 
         public void checkAndSave()
         {
+            // Modbus
             bool willSaveDataModbus = false;
             for (int i = 0; i < dataModbus.Count; i++)
             {
@@ -71,6 +72,13 @@ namespace Betonarka_Kocovce
             if (willSaveDataModbus)
             {
                 CsvLayer.SaveMiesacky(dataModbus);
+            }
+
+            // Profinet
+            if (ProfinetS7.readyToSave == true)
+            {
+                ProfinetS7.readyToSave = false;
+                CsvLayer.SavePalety(dataProfinet);
             }
         }
 

@@ -50,5 +50,31 @@ namespace Betonarka_Kocovce
                 csv.WriteRecords(records);
             }
         }
+
+        public static void SavePalety(List<int> data)
+        {
+            var currDateTime = GetCurrentDateTimeStr();
+            var savePath = $"{dataPath}\\{currDateTime}";
+            if (!Directory.Exists(savePath))
+            {
+                Directory.CreateDirectory(savePath);
+            }
+
+            var records = new List<PaletyModel>
+            {
+                new PaletyModel
+                {
+                    Sortiment = data[0],
+                    VrstievPaleta = data[1]
+                }
+            };
+
+            var filePath = $"{savePath}\\dataPalety.csv";
+            using (var writer = new StreamWriter(filePath))
+            using (var csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
+            {
+                csv.WriteRecords(records);
+            }
+        }
     }
 }
