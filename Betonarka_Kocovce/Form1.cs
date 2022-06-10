@@ -60,6 +60,7 @@ namespace Betonarka_Kocovce
             if (willSaveDataModbus)
             {
                 CsvLayer.SaveMiesacky(dataModbus);
+                textBox10.Text = CsvLayer.lastTimeMiesacky;
             }
         }
 
@@ -87,6 +88,7 @@ namespace Betonarka_Kocovce
             {
                 ProfinetS7.readyToSave = false;
                 CsvLayer.SavePalety(dataProfinet);
+                textBox11.Text = CsvLayer.lastTimePalety;
             }
         }
 

@@ -21,30 +21,37 @@ namespace Betonarka_Kocovce
 
         public static List<int> ReadData()
         {
-            if (plc.IsConnected == false)
+            try
             {
-                plc.Open();
                 if (plc.IsConnected == false)
-                    return null;
+                {
+                    plc.Open();
+                    if (plc.IsConnected == false)
+                        return null;
+                }
+
+                //var bitArray = (bool[])plc.Read(DataType.DataBlock, db, 0, VarType.Bit, 1, 0);
+                //var data = ((int[])plc.Read(DataType.DataBlock, db, 2, VarType.Word, 2)).ToList();
+                var data = new List<int>();
+                int firstValue = (ushort)plc.Read("DB2110.DBW2");
+                int secondValue = (ushort)plc.Read("DB2110.DBW4");
+                data.Add(firstValue);
+                data.Add(secondValue);
+
+                bool readyBit = (bool)plc.Read("DB2110.DBX0.0");
+                if (readyBit == true)
+                {
+                    readyToSave = true;
+                    //plc.WriteBit(DataType.DataBlock, db, 0, 0, false);
+                    plc.Write("DB2110.DBX0.0", false);
+                }
+
+                return data;
             }
-
-            //var bitArray = (bool[])plc.Read(DataType.DataBlock, db, 0, VarType.Bit, 1, 0);
-            //var data = ((int[])plc.Read(DataType.DataBlock, db, 2, VarType.Word, 2)).ToList();
-            var data = new List<int>();
-            int firstValue = (ushort)plc.Read("DB2110.DBW2");
-            int secondValue = (ushort)plc.Read("DB2110.DBW4");
-            data.Add(firstValue);
-            data.Add(secondValue);
-
-            bool readyBit = (bool)plc.Read("DB2110.DBX0.0");
-            if (readyBit == true)
+            catch (Exception)
             {
-                readyToSave = true;
-                //plc.WriteBit(DataType.DataBlock, db, 0, 0, false);
-                plc.Write("DB2110.DBX0.0", false);
+                return null;
             }
-
-            return data;
         }
     }
 }

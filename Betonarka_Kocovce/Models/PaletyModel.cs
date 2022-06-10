@@ -8,6 +8,7 @@ namespace Betonarka_Kocovce.Models
 {
     public class PaletyModel
     {
+        public string Cas { get; set; }
         public int Sortiment { get; set; }
         public int VrstievPaleta { get; set; }
     }

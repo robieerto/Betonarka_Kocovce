@@ -54,6 +54,11 @@
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -146,7 +151,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(346, 112);
+            this.label2.Location = new System.Drawing.Point(320, 113);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(272, 39);
             this.label2.TabIndex = 179;
@@ -158,7 +163,7 @@
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(346, 259);
+            this.label7.Location = new System.Drawing.Point(324, 257);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(257, 39);
             this.label7.TabIndex = 180;
@@ -202,7 +207,7 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Microsoft Tai Le", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(298, 162);
+            this.label5.Location = new System.Drawing.Point(300, 162);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(153, 22);
             this.label5.TabIndex = 182;
@@ -266,7 +271,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.BackColor = System.Drawing.Color.Transparent;
-            this.label30.Location = new System.Drawing.Point(350, 574);
+            this.label30.Location = new System.Drawing.Point(340, 637);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(221, 16);
             this.label30.TabIndex = 190;
@@ -278,7 +283,7 @@
             this.label10.BackColor = System.Drawing.Color.Transparent;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(404, 390);
+            this.label10.Location = new System.Drawing.Point(397, 388);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(118, 39);
             this.label10.TabIndex = 191;
@@ -328,12 +333,69 @@
             this.label12.TabIndex = 195;
             this.label12.Text = "VRSTIEV PALETA";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("Microsoft Tai Le", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(197, 549);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(244, 22);
+            this.label13.TabIndex = 197;
+            this.label13.Text = "Posledný zápis miešačky";
+            // 
+            // textBox10
+            // 
+            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox10.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox10.Location = new System.Drawing.Point(198, 574);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.ReadOnly = true;
+            this.textBox10.Size = new System.Drawing.Size(240, 30);
+            this.textBox10.TabIndex = 196;
+            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.Transparent;
+            this.label14.Font = new System.Drawing.Font("Microsoft Tai Le", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label14.Location = new System.Drawing.Point(497, 549);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(212, 22);
+            this.label14.TabIndex = 199;
+            this.label14.Text = "Posledný zápis palety";
+            // 
+            // textBox11
+            // 
+            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox11.Location = new System.Drawing.Point(481, 574);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.ReadOnly = true;
+            this.textBox11.Size = new System.Drawing.Size(240, 30);
+            this.textBox11.TabIndex = 198;
+            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label15
+            // 
+            this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label15.Location = new System.Drawing.Point(102, 523);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(764, 3);
+            this.label15.TabIndex = 200;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Green;
-            this.ClientSize = new System.Drawing.Size(981, 590);
+            this.ClientSize = new System.Drawing.Size(981, 653);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.textBox11);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.textBox9);
@@ -393,6 +455,11 @@
         private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label15;
     }
 }
 

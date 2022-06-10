@@ -7,23 +7,44 @@ using System.IO;
 using CsvHelper;
 using System.Globalization;
 using Betonarka_Kocovce.Models;
+using CsvHelper.Configuration;
 
 namespace Betonarka_Kocovce
 {
     public static class CsvLayer
     {
-        public const string dateTimeFormat = "dd-MM-yyyy";
+        public const string dateFormat = "dd-MM-yyyy";
+        public const string dateTimeFormat = "HH:mm:ss dd-MM-yyyy";
+        public const string dateTimeFormatCsv = "HH:mm:ss_dd-MM-yyyy";
         public static readonly string dataPath = "data";
+        public static string lastTimeMiesacky;
+        public static string lastTimePalety;
 
-        public static string GetCurrentDateTimeStr()
+        public static string GetCurrentDateTimeStr(string format)
         {
-            return DateTime.Now.ToString(dateTimeFormat);
+            return DateTime.Now.ToString(format);
+        }
+
+        public static void SaveData<T>(List<T> data, string filePath)
+        {
+            var config = new CsvConfiguration(CultureInfo.CurrentCulture)
+            {
+                HasHeaderRecord = (File.Exists(filePath) == false),
+            };
+
+            using (var stream = File.Open(filePath, FileMode.Append))
+            using (var writer = new StreamWriter(stream))
+            using (var csv = new CsvWriter(writer, config))
+            {
+                csv.WriteRecords(data);
+            }
         }
 
         public static void SaveMiesacky(List<double> data)
         {
-            var currDateTime = GetCurrentDateTimeStr();
-            var savePath = $"{dataPath}\\{currDateTime}";
+            var currDateTime = DateTime.Now;
+            lastTimeMiesacky = currDateTime.ToString(dateTimeFormat);
+            var savePath = $"{dataPath}\\{currDateTime.ToString(dateFormat)}";
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
@@ -33,6 +54,7 @@ namespace Betonarka_Kocovce
             {
                 new MiesackyModel
                 {
+                    Cas = currDateTime.ToString(dateTimeFormatCsv),
                     VelkaCement = data[0],
                     VelkaCementBiely = data[1],
                     VelkaStuska = data[2],
@@ -44,17 +66,14 @@ namespace Betonarka_Kocovce
             };
 
             var filePath = $"{savePath}\\dataBetonarka.csv";
-            using (var writer= new StreamWriter(filePath))
-            using (var csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
-            {
-                csv.WriteRecords(records);
-            }
+            SaveData(records, filePath);
         }
 
         public static void SavePalety(List<int> data)
         {
-            var currDateTime = GetCurrentDateTimeStr();
-            var savePath = $"{dataPath}\\{currDateTime}";
+            var currDateTime = DateTime.Now;
+            lastTimePalety = currDateTime.ToString(dateTimeFormat);
+            var savePath = $"{dataPath}\\{currDateTime.ToString(dateFormat)}";
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
@@ -64,17 +83,14 @@ namespace Betonarka_Kocovce
             {
                 new PaletyModel
                 {
+                    Cas = currDateTime.ToString(dateTimeFormatCsv),
                     Sortiment = data[0],
                     VrstievPaleta = data[1]
                 }
             };
 
             var filePath = $"{savePath}\\dataPalety.csv";
-            using (var writer = new StreamWriter(filePath))
-            using (var csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
-            {
-                csv.WriteRecords(records);
-            }
+            SaveData(records, filePath);
         }
     }
 }

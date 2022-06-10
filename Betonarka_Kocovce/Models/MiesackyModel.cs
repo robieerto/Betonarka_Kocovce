@@ -8,6 +8,7 @@ namespace Betonarka_Kocovce.Models
 {
     public class MiesackyModel
     {
+        public string Cas { get; set; }
         public double VelkaCement { get; set; }
         public double VelkaCementBiely { get; set; }
         public double VelkaStuska { get; set; }
