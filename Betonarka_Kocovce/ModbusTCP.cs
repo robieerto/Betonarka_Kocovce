@@ -14,7 +14,6 @@ namespace Betonarka_Kocovce
         public static int ipPort = 8881;
         public static byte slaveId = 0;
 
-        public static int counter = 0;
         public static List<double> MasterReadDoubleWords(ushort startAddress, ushort numDoubleWords)
         {
             using (TcpClient client = new TcpClient(ipAddr, ipPort))
@@ -31,13 +30,6 @@ namespace Betonarka_Kocovce
                 {
                     double recvValue = registers[i] | (registers[i + 1] << 16);
                     recvData.Add(recvValue / 10); // 1 decimal value
-                }
-
-                //////////////////////// for test ///////////////////////////
-                if (counter++ == 2)
-                {
-                    recvData.RemoveAt(recvData.Count - 1);
-                    recvData.Add(0);
                 }
 
                 return recvData;
