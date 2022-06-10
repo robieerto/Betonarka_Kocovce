@@ -18,10 +18,11 @@ namespace Betonarka_Kocovce
             this.Text = "Betonárka Kočovce";
             this.Select();
 
-            //ReadValues();
+            ReadModbus();
         }
 
-        public void ReadValues()
+        // miesacky
+        public void ReadModbus()
         {
             if (dataModbus != null)
             {
@@ -40,8 +41,31 @@ namespace Betonarka_Kocovce
             textBox5.Text = Convert.ToString(dataModbus[4]); // cement
             textBox6.Text = Convert.ToString(dataModbus[5]); // cement biely
             textBox7.Text = Convert.ToString(dataModbus[6]); // struska
+        }
 
-            // palety
+        public void CheckAndSaveModbus()
+        {
+            bool willSaveDataModbus = false;
+            if (dataModbus != null && dataModbusLast != null)
+            {
+                for (int i = 0; i < dataModbus.Count; i++)
+                {
+                    if (dataModbus[i] == 0 && dataModbusLast[i] != 0)
+                    {
+                        willSaveDataModbus = true;
+                        break;
+                    }
+                }
+            }
+            if (willSaveDataModbus)
+            {
+                CsvLayer.SaveMiesacky(dataModbus);
+            }
+        }
+
+        // palety
+        public void ReadProfinet()
+        {
             if (profinetConnected)
             {
                 dataProfinet = ProfinetS7.ReadData();
@@ -57,24 +81,8 @@ namespace Betonarka_Kocovce
             }
         }
 
-        public void checkAndSave()
+        public void CheckAndSaveProfinet()
         {
-            // Modbus
-            bool willSaveDataModbus = false;
-            for (int i = 0; i < dataModbus.Count; i++)
-            {
-                if (dataModbus[i] == 0 && dataModbusLast[i] != 0)
-                {
-                    willSaveDataModbus = true;
-                    break;
-                }
-            }
-            if (willSaveDataModbus)
-            {
-                CsvLayer.SaveMiesacky(dataModbus);
-            }
-
-            // Profinet
             if (ProfinetS7.readyToSave == true)
             {
                 ProfinetS7.readyToSave = false;
@@ -89,8 +97,10 @@ namespace Betonarka_Kocovce
             if (timer >= 1)
             {
                 timer = 0;
-                ReadValues();
-                checkAndSave();
+                ReadModbus();
+                CheckAndSaveModbus();
+                ReadProfinet();
+                CheckAndSaveProfinet();
             }
         }
     }

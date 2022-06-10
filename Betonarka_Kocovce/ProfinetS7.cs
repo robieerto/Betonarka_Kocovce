@@ -38,13 +38,13 @@ namespace Betonarka_Kocovce
                 data.Add(firstValue);
                 data.Add(secondValue);
 
-                int bitsValue = (ushort)plc.Read("DB2110.DBX0");
+                int bitsValue = (ushort)plc.Read("DB2110.DBW0");
                 int readyBit = bitsValue & 1;
                 if (readyBit == 1)
                 {
                     readyToSave = true;
                     //plc.WriteBit(DataType.DataBlock, db, 0, 0, false);
-                    plc.Write("DB2110.DBX0", (bitsValue | 1));
+                    plc.Write("DB2110.DBW0", (bitsValue & 0));
                 }
                 return data;
             }
