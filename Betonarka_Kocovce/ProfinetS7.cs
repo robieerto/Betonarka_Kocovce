@@ -21,37 +21,30 @@ namespace Betonarka_Kocovce
 
         public static List<int> ReadData()
         {
-            try
+            if (plc.IsConnected == false)
             {
+                plc.Open();
                 if (plc.IsConnected == false)
-                {
-                    plc.Open();
-                    if (plc.IsConnected == false)
-                        return null;
-                }
-
-                //var bitArray = (bool[])plc.Read(DataType.DataBlock, db, 0, VarType.Bit, 1, 0);
-                //var data = ((int[])plc.Read(DataType.DataBlock, db, 2, VarType.Word, 2)).ToList();
-                var data = new List<int>();
-                int firstValue = (ushort)plc.Read("DB2110.DBW2");
-                int secondValue = (ushort)plc.Read("DB2110.DBW4");
-                data.Add(firstValue);
-                data.Add(secondValue);
-
-                int bitsValue = (ushort)plc.Read("DB2110.DBW0");
-                int readyBit = bitsValue & 1;
-                if (readyBit == 1)
-                {
-                    readyToSave = true;
-                    //plc.WriteBit(DataType.DataBlock, db, 0, 0, false);
-                    plc.Write("DB2110.DBW0", (bitsValue & 0));
-                }
-                return data;
+                    return null;
             }
-            catch (Exception)
+
+            //var bitArray = (bool[])plc.Read(DataType.DataBlock, db, 0, VarType.Bit, 1, 0);
+            //var data = ((int[])plc.Read(DataType.DataBlock, db, 2, VarType.Word, 2)).ToList();
+            var data = new List<int>();
+            int firstValue = (ushort)plc.Read("DB2110.DBW2");
+            int secondValue = (ushort)plc.Read("DB2110.DBW4");
+            data.Add(firstValue);
+            data.Add(secondValue);
+
+            bool readyBit = (bool)plc.Read("DB2110.DBX0.0");
+            if (readyBit == true)
             {
-                return null;
+                readyToSave = true;
+                //plc.WriteBit(DataType.DataBlock, db, 0, 0, false);
+                plc.Write("DB2110.DBX0.0", false);
             }
+
+            return data;
         }
     }
 }
