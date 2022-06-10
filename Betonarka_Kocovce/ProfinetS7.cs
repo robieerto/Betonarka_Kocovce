@@ -13,7 +13,7 @@ namespace Betonarka_Kocovce
         public static int ipPort = 8901;
         public static short rack = 0;
         public static short slot = 1;
-        public static int startAddr = 2110;
+        public static int db = 2110;
 
         public static bool readyToSave;
 
@@ -30,20 +30,21 @@ namespace Betonarka_Kocovce
                         return null;
                 }
 
-                var bitArray = (bool[])plc.Read(DataType.DataBlock, startAddr, 0, VarType.Bit, 1, 0);
-                var data = ((int[])plc.Read(DataType.DataBlock, startAddr, 2, VarType.DWord, 2)).ToList();
-                // druha varianta
-                //var data = new List<int>();
-                //int firstValue = (ushort)plc.Read("DB2110.DBW2");
-                //int secondValue = (ushort)plc.Read("DB2110.DBW4");
-                //data.Add(firstValue);
-                //data.Add(secondValue);
+                //var bitArray = (bool[])plc.Read(DataType.DataBlock, db, 0, VarType.Bit, 1, 0);
+                //var data = ((int[])plc.Read(DataType.DataBlock, db, 2, VarType.Word, 2)).ToList();
+                var data = new List<int>();
+                int firstValue = (ushort)plc.Read("DB2110.DBW2");
+                int secondValue = (ushort)plc.Read("DB2110.DBW4");
+                data.Add(firstValue);
+                data.Add(secondValue);
 
-                bool readyBit = bitArray[0];
-                if (readyBit == true)
+                int bitsValue = (ushort)plc.Read("DB2110.DBX0");
+                int readyBit = bitsValue & 1;
+                if (readyBit == 1)
                 {
                     readyToSave = true;
-                    plc.WriteBit(DataType.DataBlock, 2110, 0, 0, false);
+                    //plc.WriteBit(DataType.DataBlock, db, 0, 0, false);
+                    plc.Write("DB2110.DBX0", (bitsValue | 1));
                 }
                 return data;
             }
