@@ -109,14 +109,7 @@ namespace Betonarka_Kocovce
                     }
                     else
                     {
-                        if (ProfinetS7.isConnected == false)
-                        {
-                            textBox13.Text = "Nepripojené";
-                        }
-                        else
-                        {
-                            textBox13.Text = "Pripojené, nemožno vyčítať dáta";
-                        }
+                        textBox13.Text = "Nepripojené";
                     }
                     readingProfinet = false;
                 });

@@ -9,8 +9,10 @@ namespace Betonarka_Kocovce
 {
     public static class ProfinetS7
     {
-        private static readonly string ipAddr = "213.215.84.85";
-        private static readonly int ipPort = 8901;
+        //private static readonly string ipAddr = "213.215.84.85";
+        //private static readonly int ipPort = 8901;
+        private static readonly string ipAddr = "192.168.1.10";
+        private static readonly int ipPort = 102;
         private static readonly short rack = 0;
         private static readonly short slot = 1;
         private static readonly int db = 2110;
