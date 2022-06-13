@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Betonarka_Kocovce
 {
     public partial class Form1 : System.Windows.Forms.Form
     {
-        List<double> dataModbus;
-        List<double> dataModbusLast;
+        List<double> dataModbus, dataModbusLast;
         List<int> dataProfinet;
-        bool profinetConnected = true;
+        bool readingModbus, readingProfinet;
 
         int timer = 0;
 
@@ -18,29 +18,57 @@ namespace Betonarka_Kocovce
             this.Text = "Betonárka Kočovce";
             this.Select();
 
+            textBox12.Text = "Nadväzujem spojenie";
+            textBox13.Text = "Nadväzujem spojenie";
+
             ReadModbus();
+            ReadProfinet();
         }
 
         // miesacky
         public void ReadModbus()
         {
-            if (dataModbus != null)
+            if (readingModbus == false)
             {
-                dataModbusLast = new List<double>(dataModbus);
+                readingModbus = true;
+                if (dataModbus != null)
+                {
+                    dataModbusLast = new List<double>(dataModbus);
+                }
+                Task.Run(() =>
+                {
+                    // velka miesacka
+                    dataModbus = ModbusTCP.MasterReadDoubleWords(618, 4);
+                    if (dataModbus != null)
+                    {
+                        textBox1.Text = Convert.ToString(dataModbus[0]); // cement
+                        textBox2.Text = Convert.ToString(dataModbus[1]); // cement biely
+                        textBox3.Text = Convert.ToString(dataModbus[2]); // struska
+                        textBox4.Text = Convert.ToString(dataModbus[3]); // popol
+
+                        // mala miesacka
+                        var nextData = ModbusTCP.MasterReadDoubleWords(718, 3);
+                        if (nextData != null)
+                        {
+                            dataModbus.AddRange(nextData);
+                            textBox5.Text = Convert.ToString(dataModbus[4]); // cement
+                            textBox6.Text = Convert.ToString(dataModbus[5]); // cement biely
+                            textBox7.Text = Convert.ToString(dataModbus[6]); // struska
+                            textBox12.Text = "Pripojené";
+                        }
+                        else
+                        {
+                            textBox12.Text = "Nepripojené";
+                        }
+                    }
+                    else
+                    {
+                        textBox12.Text = "Nepripojené";
+                    }
+                    readingModbus = false;
+                });
             }
 
-            // velka miesacka
-            dataModbus = ModbusTCP.MasterReadDoubleWords(618, 4);
-            textBox1.Text = Convert.ToString(dataModbus[0]); // cement
-            textBox2.Text = Convert.ToString(dataModbus[1]); // cement biely
-            textBox3.Text = Convert.ToString(dataModbus[2]); // struska
-            textBox4.Text = Convert.ToString(dataModbus[3]); // popol
-
-            // mala miesacka
-            dataModbus.AddRange(ModbusTCP.MasterReadDoubleWords(718, 3));
-            textBox5.Text = Convert.ToString(dataModbus[4]); // cement
-            textBox6.Text = Convert.ToString(dataModbus[5]); // cement biely
-            textBox7.Text = Convert.ToString(dataModbus[6]); // struska
         }
 
         public void CheckAndSaveModbus()
@@ -67,19 +95,33 @@ namespace Betonarka_Kocovce
         // palety
         public void ReadProfinet()
         {
-            if (profinetConnected)
+            if (readingProfinet == false)
             {
-                dataProfinet = ProfinetS7.ReadData();
+                readingProfinet = true;
+                Task.Run(() =>
+                {
+                    dataProfinet = ProfinetS7.ReadData();
+                    if (dataProfinet != null)
+                    {
+                        textBox8.Text = Convert.ToString(dataProfinet[0]);
+                        textBox9.Text = Convert.ToString(dataProfinet[1]);
+                        textBox13.Text = "Pripojené";
+                    }
+                    else
+                    {
+                        if (ProfinetS7.isConnected == false)
+                        {
+                            textBox13.Text = "Nepripojené";
+                        }
+                        else
+                        {
+                            textBox13.Text = "Pripojené, nemožno vyčítať dáta";
+                        }
+                    }
+                    readingProfinet = false;
+                });
             }
-            if (dataProfinet != null)
-            {
-                textBox8.Text = Convert.ToString(dataProfinet[0]);
-                textBox9.Text = Convert.ToString(dataProfinet[1]);
-            }
-            else
-            {
-                profinetConnected = false;
-            }
+
         }
 
         public void CheckAndSaveProfinet()

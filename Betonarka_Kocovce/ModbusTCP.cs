@@ -16,23 +16,30 @@ namespace Betonarka_Kocovce
 
         public static List<double> MasterReadDoubleWords(ushort startAddress, ushort numDoubleWords)
         {
-            using (TcpClient client = new TcpClient(ipAddr, ipPort))
+            try
             {
-                var factory = new ModbusFactory();
-                IModbusMaster master = factory.CreateMaster(client);
-
-                ushort numRegisters = (ushort)(numDoubleWords * 2); // double word is across 2 registers
-                ushort[] registers = master.ReadHoldingRegisters(slaveId, startAddress, numRegisters);
-
-                List<double> recvData = new List<double>();
-
-                for (int i = 0; i < numRegisters; i += 2)
+                using (TcpClient client = new TcpClient(ipAddr, ipPort))
                 {
-                    double recvValue = registers[i] | (registers[i + 1] << 16);
-                    recvData.Add(recvValue / 10); // 1 decimal value
-                }
+                    var factory = new ModbusFactory();
+                    IModbusMaster master = factory.CreateMaster(client);
 
-                return recvData;
+                    ushort numRegisters = (ushort)(numDoubleWords * 2); // double word is across 2 registers
+                    ushort[] registers = master.ReadHoldingRegisters(slaveId, startAddress, numRegisters);
+
+                    List<double> recvData = new List<double>();
+
+                    for (int i = 0; i < numRegisters; i += 2)
+                    {
+                        double recvValue = registers[i] | (registers[i + 1] << 16);
+                        recvData.Add(recvValue / 10); // 1 decimal value
+                    }
+
+                    return recvData;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
     }

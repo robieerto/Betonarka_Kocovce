@@ -9,15 +9,15 @@ namespace Betonarka_Kocovce
 {
     public static class ProfinetS7
     {
-        public static string ipAddr = "213.215.84.85";
-        public static int ipPort = 8901;
-        public static short rack = 0;
-        public static short slot = 1;
-        public static int db = 2110;
+        private static readonly string ipAddr = "213.215.84.85";
+        private static readonly int ipPort = 8901;
+        private static readonly short rack = 0;
+        private static readonly short slot = 1;
+        private static readonly int db = 2110;
+        private static Plc plc = new Plc(CpuType.S71200, ipAddr, ipPort, rack, slot);
 
+        public static bool isConnected;
         public static bool readyToSave;
-
-        public static Plc plc = new Plc(CpuType.S71200, ipAddr, ipPort, rack, slot);
 
         public static List<int> ReadData()
         {
@@ -25,10 +25,17 @@ namespace Betonarka_Kocovce
             {
                 if (plc.IsConnected == false)
                 {
-                    plc.Open();
-                    if (plc.IsConnected == false)
+                    try
+                    {
+                        plc.Open();
+                    }
+                    catch (Exception)
+                    {
+                        isConnected = false;
                         return null;
+                    }
                 }
+                isConnected = true;
 
                 //var bitArray = (bool[])plc.Read(DataType.DataBlock, db, 0, VarType.Bit, 1, 0);
                 //var data = ((int[])plc.Read(DataType.DataBlock, db, 2, VarType.Word, 2)).ToList();
