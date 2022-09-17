@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Betonarka_Kocovce.Models
+namespace BetonarkaDL.Models
 {
     public class MiesackyModel
     {

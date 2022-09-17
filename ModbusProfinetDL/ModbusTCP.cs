@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NModbus;
 
-namespace Betonarka_Kocovce
+namespace BetonarkaDL
 {
     public static class ModbusTCP
     {

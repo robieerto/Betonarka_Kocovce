@@ -6,23 +6,28 @@ using System.Threading.Tasks;
 using System.IO;
 using CsvHelper;
 using System.Globalization;
-using Betonarka_Kocovce.Models;
+using BetonarkaDL.Models;
 using CsvHelper.Configuration;
 
-namespace Betonarka_Kocovce
+namespace BetonarkaDL
 {
     public static class CsvLayer
     {
         public const string dateFormat = "dd-MM-yyyy";
         public const string dateTimeFormat = "HH:mm:ss dd-MM-yyyy";
         public const string dateTimeFormatCsv = "HH:mm:ss_dd-MM-yyyy";
-        public static readonly string dataPath = "data";
+        public static readonly string monthFormat = CultureInfo.CurrentCulture.DateTimeFormat.MonthDayPattern;
+        public static readonly string dataPath = AppDomain.CurrentDomain.BaseDirectory + "\\data";
         public static string lastTimeMiesacky;
         public static string lastTimePalety;
 
-        public static string GetCurrentDateTimeStr(string format)
+        private static string GetSavePath(DateTime now)
         {
-            return DateTime.Now.ToString(format);
+            var currYear = now.ToString("yyyy");
+            var currMonth = now.ToString(monthFormat);
+            var currDate = now.ToString(dateFormat);
+            var savePath = $"{dataPath}\\{currYear}\\{currMonth}\\{currDate}";
+            return savePath;
         }
 
         public static void SaveData<T>(List<T> data, string filePath)
@@ -44,7 +49,7 @@ namespace Betonarka_Kocovce
         {
             var currDateTime = DateTime.Now;
             lastTimeMiesacky = currDateTime.ToString(dateTimeFormat);
-            var savePath = $"{dataPath}\\{currDateTime.ToString(dateFormat)}";
+            var savePath = GetSavePath(currDateTime);
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);
@@ -59,11 +64,15 @@ namespace Betonarka_Kocovce
                     VelkaCementBiely = data[1],
                     VelkaStuska = data[2],
                     VelkaPopol = data[3],
-                    MalaCement = data[4],
-                    MalaCementBiely = data[5],
-                    MalaStuska = data[6],
+
                 }
             };
+            if (data.Count > 4)
+            {
+                records[0].MalaCement = data[4];
+                records[0].MalaCementBiely = data[5];
+                records[0].MalaStuska = data[6];
+            }
 
             var filePath = $"{savePath}\\dataBetonarka.csv";
             SaveData(records, filePath);
@@ -73,7 +82,7 @@ namespace Betonarka_Kocovce
         {
             var currDateTime = DateTime.Now;
             lastTimePalety = currDateTime.ToString(dateTimeFormat);
-            var savePath = $"{dataPath}\\{currDateTime.ToString(dateFormat)}";
+            var savePath = GetSavePath(currDateTime);
             if (!Directory.Exists(savePath))
             {
                 Directory.CreateDirectory(savePath);

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Betonarka_Kocovce", "Betonarka_Kocovce\Betonarka_Kocovce.csproj", "{BF3A959C-7965-40EF-933C-0F35A0F1AE69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetonarkaDL", "ModbusProfinetDL\BetonarkaDL.csproj", "{CA5B80C6-2CD7-4CE4-BF55-EF57CDB46BE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BF3A959C-7965-40EF-933C-0F35A0F1AE69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF3A959C-7965-40EF-933C-0F35A0F1AE69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF3A959C-7965-40EF-933C-0F35A0F1AE69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA5B80C6-2CD7-4CE4-BF55-EF57CDB46BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA5B80C6-2CD7-4CE4-BF55-EF57CDB46BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA5B80C6-2CD7-4CE4-BF55-EF57CDB46BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA5B80C6-2CD7-4CE4-BF55-EF57CDB46BE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
