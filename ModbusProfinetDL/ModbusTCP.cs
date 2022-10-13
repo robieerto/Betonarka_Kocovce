@@ -12,6 +12,8 @@ namespace BetonarkaDL
     {
         public static string ipAddr = "213.215.84.85";
         public static int ipPort = 8881;
+        //public static string ipAddr = "192.168.2.181";
+        //public static int ipPort = 502;
         public static byte slaveId = 0;
 
         public static List<double> MasterReadDoubleWords(ushort startAddress, ushort numDoubleWords)
@@ -37,8 +39,10 @@ namespace BetonarkaDL
                     return recvData;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Library.WriteLog("Spojenie Modbus neuspesne:");
+                Library.WriteLog(ex);
                 return null;
             }
         }

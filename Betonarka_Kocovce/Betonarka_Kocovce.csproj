@@ -103,6 +103,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BetonarkaFormDL\BetonarkaFormDL.csproj">
+      <Project>{67ef37e9-2e04-4976-841e-f8f551c6e88b}</Project>
+      <Name>BetonarkaFormDL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModbusProfinetDL\BetonarkaDL.csproj">
       <Project>{ca5b80c6-2cd7-4ce4-bf55-ef57cdb46be8}</Project>
       <Name>BetonarkaDL</Name>

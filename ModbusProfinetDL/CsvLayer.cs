@@ -16,15 +16,15 @@ namespace BetonarkaDL
         public const string dateFormat = "dd-MM-yyyy";
         public const string dateTimeFormat = "HH:mm:ss dd-MM-yyyy";
         public const string dateTimeFormatCsv = "HH:mm:ss_dd-MM-yyyy";
-        public static readonly string monthFormat = CultureInfo.CurrentCulture.DateTimeFormat.MonthDayPattern;
         public static readonly string dataPath = AppDomain.CurrentDomain.BaseDirectory + "\\data";
         public static string lastTimeMiesacky;
         public static string lastTimePalety;
 
         private static string GetSavePath(DateTime now)
         {
+            var ci = new CultureInfo("en-US");
             var currYear = now.ToString("yyyy");
-            var currMonth = now.ToString(monthFormat);
+            var currMonth = now.ToString("MMMM", ci);
             var currDate = now.ToString(dateFormat);
             var savePath = $"{dataPath}\\{currYear}\\{currMonth}\\{currDate}";
             return savePath;
@@ -37,11 +37,19 @@ namespace BetonarkaDL
                 HasHeaderRecord = (File.Exists(filePath) == false),
             };
 
-            using (var stream = File.Open(filePath, FileMode.Append))
-            using (var writer = new StreamWriter(stream))
-            using (var csv = new CsvWriter(writer, config))
+            try
             {
-                csv.WriteRecords(data);
+                using (var stream = File.Open(filePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+                using (var writer = new StreamWriter(stream))
+                using (var csv = new CsvWriter(writer, config))
+                {
+                    csv.WriteRecords(data);
+                }
+            }
+            catch (Exception ex)
+            {
+                Library.WriteLog("Zapis do CSV suboru zlyhal:");
+                Library.WriteLog(ex);
             }
         }
 
@@ -93,8 +101,10 @@ namespace BetonarkaDL
                 new PaletyModel
                 {
                     Cas = currDateTime.ToString(dateTimeFormatCsv),
-                    Sortiment = data[0],
-                    VrstievPaleta = data[1]
+                    ProgramTERAMEX = data[0],
+                    VrstevPaleta = data[1],
+                    ProgramHESS = data[2],
+                    DenniPocitadlo = data[3]
                 }
             };
 

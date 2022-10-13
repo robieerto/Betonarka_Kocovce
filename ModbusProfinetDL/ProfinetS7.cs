@@ -11,14 +11,14 @@ namespace BetonarkaDL
     {
         private static string ipAddr = "213.215.84.85";
         private static int ipPort = 8901;
-        //private static string ipAddr = "192.168.1.10";
+        //private static string ipAddr = "192.168.2.185";
         //private static int ipPort = 102;
         private static short rack = 0;
         private static short slot = 1;
         private static int db = 2110;
         private static Plc plc = new Plc(CpuType.S71200, ipAddr, ipPort, rack, slot);
 
-        public static bool isConnected;
+        public static bool isConnected = true;
         public static bool readyToSave;
 
         public static List<int> ReadData()
@@ -30,9 +30,15 @@ namespace BetonarkaDL
                     try
                     {
                         plc.Open();
+                        Library.WriteLog("Profinet pripojeny");
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        if (isConnected)
+                        {
+                            Library.WriteLog("Spojenie Profinet neuspesne:");
+                            Library.WriteLog(ex);
+                        }
                         isConnected = false;
                         return null;
                     }
@@ -44,8 +50,13 @@ namespace BetonarkaDL
                 var data = new List<int>();
                 int firstValue = (ushort)plc.Read("DB2110.DBW2");
                 int secondValue = (ushort)plc.Read("DB2110.DBW4");
+                int thirdValue = (ushort)plc.Read("DB2110.DBW6");
+                int fourthValue = (ushort)plc.Read("DB2110.DBW8");
+
                 data.Add(firstValue);
                 data.Add(secondValue);
+                data.Add(thirdValue);
+                data.Add(fourthValue);
 
                 bool readyBit = (bool)plc.Read("DB2110.DBX0.0");
                 if (readyBit == true)
@@ -57,8 +68,9 @@ namespace BetonarkaDL
 
                 return data;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Library.WriteLog(ex);
                 return null;
             }
         }

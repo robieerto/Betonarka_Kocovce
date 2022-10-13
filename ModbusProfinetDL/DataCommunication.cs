@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BetonarkaFormDL;
 
 namespace BetonarkaDL
 {
@@ -10,14 +11,12 @@ namespace BetonarkaDL
     {
         static List<double> dataModbus, dataModbusLast;
         static List<int> dataProfinet;
-        static bool modbusTaskIsRunning, profinetTaskIsRunning;
 
         // miesacky
         public static void ModbusTask()
         {
             while (true)
             {
-                modbusTaskIsRunning = true;
                 // save last value
                 if (dataModbus != null)
                 {
@@ -27,11 +26,13 @@ namespace BetonarkaDL
                 dataModbus = ModbusTCP.MasterReadDoubleWords(618, 4);
                 if (dataModbus != null)
                 {
+                    Library.WriteLastTimeModbus();
                     // mala miesacka
                     var nextData = ModbusTCP.MasterReadDoubleWords(718, 3);
                     if (nextData != null)
                     {
                         dataModbus.AddRange(nextData);
+                        DataForm.FillModbus(dataModbus);
                     }
                 }
 
@@ -41,7 +42,7 @@ namespace BetonarkaDL
                 {
                     for (int i = 0; i < dataModbus.Count; i++)
                     {
-                        if (true)// (dataModbus[i] < dataModbusLast[i])
+                        if (dataModbus[i] < dataModbusLast[i])
                         {
                             willSaveDataModbus = true;
                             break;
@@ -53,7 +54,6 @@ namespace BetonarkaDL
                     CsvLayer.SaveMiesacky(dataModbus);
                 }
 
-                modbusTaskIsRunning = false;
                 Task.Delay(2000);
             }
         }
@@ -62,15 +62,18 @@ namespace BetonarkaDL
         {
             while (true)
             {
-                profinetTaskIsRunning = true;
                 dataProfinet = ProfinetS7.ReadData();
-                if (dataProfinet != null && ProfinetS7.readyToSave == true)
+                if (dataProfinet != null)
                 {
-                    ProfinetS7.readyToSave = false;
-                    CsvLayer.SavePalety(dataProfinet);
+                    Library.WriteLastTimeProfinet();
+                    DataForm.FillProfinet(dataProfinet);
+                    if (ProfinetS7.readyToSave == true)
+                    {
+                        ProfinetS7.readyToSave = false;
+                        CsvLayer.SavePalety(dataProfinet);
+                    }
                 }
 
-                profinetTaskIsRunning = false;
                 Task.Delay(2000);
             }
         }
